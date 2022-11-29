@@ -19,16 +19,36 @@ async function run(){
     try{
         const categoryCollection =client.db('resaleMarket').collection('categories');
 
-        app.get('/categories',async(req,res)=>{
-            const query = {};
-            const options= await categoryCollection.find(query).toArray();
-            res.send(options);
+        // app.get('/categories',async(req,res)=>{
+        //     const query = {};
+        //     const options= await categoryCollection.find(query).toArray();
+        //     res.send(options);
+        // })
+        app.get('/categories', async (req,res)=>{
+            const query ={}
+            const cursor = categoryCollection.find(query);
+            const categories = await cursor.sort({_id: -1}).toArray();
+            res.send(categories);
         })
+        
+        const categoryDetailsCollection =client.db('resaleMarket').collection('category_details');
+        app.get('/category_details', async(req, res) => {
+            let query = {};
+            if(req.query.id){
+                query={
+                    categoryID: req.query.id
+                }
+            };
+            const category_details = await categoryDetailsCollection.find(query).toArray();
+            res.send(category_details);
+        })
+
     }
     finally{
 
     }
 }
+
 
 run().catch(err=>console.error(err));
 

@@ -155,6 +155,8 @@ async function run(){
             const users = await usersCollection.deleteOne(query);
             res.send(users);
         })
+        
+        
 
     }
     finally{

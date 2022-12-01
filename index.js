@@ -51,6 +51,7 @@ async function run(){
             res.send(categories);
         })
         
+        /* Products Getting */
         app.get('/category_details', async(req, res) => {
             let query = {};
             if(req.query.id){
@@ -60,6 +61,13 @@ async function run(){
             };
             const category_details = await categoryDetailsCollection.find(query).toArray();
             res.send(category_details);
+        });
+
+        /* Products Post */
+        app.post('/products', async (req, res) => {
+            const body = req.body;
+            const result = await categoryDetailsCollection.insertOne(body);
+            res.send(result);
         });
 
         /* Bookingssssssssssss */
@@ -155,6 +163,11 @@ async function run(){
             const users = await usersCollection.deleteOne(query);
             res.send(users);
         })
+        app.post('/books', async (req, res) => {
+            const body = req.body;
+            const result = await booksCollection.insertOne(body);
+            res.send(result);
+        });
         
         
 

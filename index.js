@@ -54,9 +54,16 @@ async function run(){
         /* Products Getting */
         app.get('/category_details', async(req, res) => {
             let query = {};
+
             if(req.query.id){
                 query={
-                    categoryID: req.query.id
+                    cat_id: req.query.id
+                }
+            };
+
+            if(req.query.sellerEmail){
+                query={
+                    sellerEmail: req.query.sellerEmail
                 }
             };
             const category_details = await categoryDetailsCollection.find(query).toArray();
@@ -86,6 +93,13 @@ async function run(){
             };
 
             const bookings = await bookingCollection.find(query).toArray();
+            res.send(bookings);
+        });
+
+        app.get('/bookings/:id', async (req, res) => {
+            const id = req.params.id;
+            let query = {_id: ObjectId(id)};
+            const bookings = await bookingCollection.findOne(query);
             res.send(bookings);
         });
 

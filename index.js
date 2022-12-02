@@ -178,20 +178,26 @@ async function run(){
             const users = await usersCollection.deleteOne(query);
             res.send(users);
         })
-        app.post('/books', async (req, res) => {
-            const body = req.body;
-            const result = await booksCollection.insertOne(body);
-            res.send(result);
-        });
+    
         //addvertise
         app.post('/advertise', async (req, res) => {
             const body = req.body;
             const result = await advertiseCollection.insertOne(body);
             res.send(result);
+            console.log(body)
         }); 
-        
-        
-
+        app.get('/advertise', async (req, res) => {
+            let query = {};
+            const result = await advertiseCollection.find(query).toArray();
+            res.send(result);
+        });
+        //delete product
+        app.delete('/product/:id', async(req, res) => {
+            const id = req.params.id;
+            const query = {_id: ObjectId(id)};
+            const users = await categoryDetailsCollection.deleteOne(query);
+            res.send(users);
+        })
     }
     finally{
 

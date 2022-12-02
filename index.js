@@ -38,6 +38,7 @@ async function run(){
         const categoryDetailsCollection =client.db('resaleMarket').collection('category_details');
         const bookingCollection =client.db('resaleMarket').collection('bookings');
         const usersCollection = client.db('resaleMarket').collection('users');
+        const advertiseCollection = client.db('resaleMarket').collection('advertise');
 
         // app.get('/categories',async(req,res)=>{
         //     const query = {};
@@ -182,6 +183,12 @@ async function run(){
             const result = await booksCollection.insertOne(body);
             res.send(result);
         });
+        //addvertise
+        app.post('/advertise', async (req, res) => {
+            const body = req.body;
+            const result = await advertiseCollection.insertOne(body);
+            res.send(result);
+        }); 
         
         
 

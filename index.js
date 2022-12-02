@@ -62,6 +62,12 @@ async function run(){
                 }
             };
 
+            if(req.query.advertise){
+                query={
+                    advertise: req.query.advertise
+                }
+            };
+
             if(req.query.sellerEmail){
                 query={
                     sellerEmail: req.query.sellerEmail
@@ -198,6 +204,32 @@ async function run(){
             const users = await categoryDetailsCollection.deleteOne(query);
             res.send(users);
         })
+        app.put('/categoryDetails/advertise/:id', async(req, res) => {
+            const id = req.params.id;
+            const filter = { _id: ObjectId(id) };
+            const options = { upsert: true };
+            const updateDoc = {
+                $set: {
+                    advertise: 'yes'
+                }
+            };
+            const result = await categoryDetailsCollection.updateOne(filter, updateDoc, options);
+            res.send(result);
+        });
+
+        app.put('/users/verifyseller/:id', async(req, res) => {
+            
+            const id = req.params.id;
+            const filter = { _id: ObjectId(id) };
+            const options = { upsert: true };
+            const updateDoc = {
+                $set: {
+                    verifiedSeller: 'yes'
+                }
+            };
+            const result = await usersCollection.updateOne(filter, updateDoc, options);
+            res.send(result);
+        });
     }
     finally{
 
